@@ -96,8 +96,8 @@ if __name__ == '__main__':
         node_type_to_vector_file = join(getcwd(), sys.argv[5])
         training_data_paths, validation_data_paths = parse_data_paths(sys.argv[6:])
     elif option == "--load":
-        print("--load option is buggy and currently disabled")
-        sys.exit(1)
+        #print("--load option is buggy and currently disabled")
+        #sys.exit(1)
         model_file = sys.argv[3]
         name_to_vector_file = join(getcwd(), sys.argv[4])
         type_to_vector_file = join(getcwd(), sys.argv[5])

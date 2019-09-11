@@ -27,3 +27,5 @@ poss_anomalies.txt
 HyperExp*
 /.vscode
 /.idea
+node_modules
+package-lock.json
