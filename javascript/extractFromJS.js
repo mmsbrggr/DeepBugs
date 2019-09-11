@@ -148,8 +148,9 @@ The <what> argument must be one of:
             }
         }
         const fileName = what + "_" + Date.now() + ".json";
+        const folder = "~/scratch";
         console.log("Writing " + allData.length + " items to file " + fileName);
-        fs.writeFileSync(fileName, JSON.stringify(allData, null, 2));
+        fs.writeFileSync(folder + "/" + fileName, JSON.stringify(allData, null, 2));
     } else {
         console.log(usage);
         process.exit(1);
