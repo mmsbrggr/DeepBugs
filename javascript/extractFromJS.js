@@ -120,7 +120,7 @@ The <what> argument must be one of:
         if (fileListFile === "all") {
             jsFiles = relativeJsFiles.map(f => dir + (dir.endsWith("/") ? "" : "/") + f);
         } else {
-            const filesToConsider = new Set(fs.readFileSync(fileListFile, {encoding:"utf8"}).split(/\r?\n/).map(f => process.env.HOME + "/scratch/js_dataset/" + f));
+            const filesToConsider = new Set(fs.readFileSync(fileListFile, {encoding:"utf8"}).split(/\r?\n/));
             jsFiles = relativeJsFiles.map(f => dir + (dir.endsWith("/") ? "" : "/") + f);
             jsFiles = jsFiles.filter(p => filesToConsider.has(p));
         }
@@ -148,8 +148,8 @@ The <what> argument must be one of:
                 extractor.visitFile(jsFile, allData);
             }
         }
-        const fileName = what + "_" + Date.now() + ".json";
-        const folder = process.env.HOME + "/scratch/js_dataset";
+        const fileName = what + "_input.json";
+        const folder = "data/playground";
         console.log("Writing " + allData.length + " items to file " + fileName);
         fs.writeFileSync(folder + "/" + fileName, JSON.stringify(allData, null, 2));
     } else {
