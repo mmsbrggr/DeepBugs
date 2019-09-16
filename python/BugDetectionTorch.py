@@ -165,6 +165,8 @@ if __name__ == '__main__':
             optimizer.step()
 
             print("Epoch %d/%d, Mini-batch %d/%d" % (epoch + 1, 10, batch + 1, count_batches))
+            if batch % 1000 == 0:
+                print("Current loss: %1.5f" % loss.item())
 
     optimizer.zero_grad()
     time_stamp = math.floor(time.time() * 1000)
@@ -189,7 +191,7 @@ if __name__ == '__main__':
         validation_loss = criterion(outputs, ys)
 
     print()
-    print("Validation loss & accuracy: " + str(validation_loss))
+    print("Validation loss & accuracy: " + str(validation_loss.item()))
 
     # compute precision and recall with different thresholds for reporting anomalies
     # assumption: correct and swapped arguments are alternating in list of x-y pairs
