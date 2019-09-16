@@ -23,12 +23,6 @@ type_embedding_size = 5
 
 Anomaly = namedtuple("Anomaly", ["message", "score"])
 
-
-def init_weights(module):
-    if type(module) == nn.Linear:
-        torch.nn.init.normal(module.weight)
-
-
 def parse_data_paths(args):
     training_data_paths = []
     eval_data_paths = []
@@ -147,7 +141,6 @@ if __name__ == '__main__':
         nn.Linear(hidden_size, 1),
         nn.Sigmoid()
     )
-    model.apply(init_weights)
 
     criterion = nn.BCELoss()
     optimizer = optim.RMSprop(model.parameters())
