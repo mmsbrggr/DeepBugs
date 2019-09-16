@@ -142,14 +142,12 @@ if __name__ == '__main__':
         nn.Sigmoid()
     )
 
-    if torch.cuda.is_available():
-        print("Using CUDA!")
-        model = model.cuda()
-    else:
-        print("Cannot use CUDA!")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print("Moving torch model to device %s" % device)
+    model = model.to(device)
 
     criterion = nn.BCELoss()
-    optimizer = optim.RMSprop(model.parameters())
+    optimizer = optim.Adam(model.parameters())
 
     batch_size = 100
     count_batches = math.ceil(len(xs_training) / 100)
@@ -157,8 +155,8 @@ if __name__ == '__main__':
         for batch in range(count_batches):
             xs_batch = xs_training[batch * batch_size:]
             ys_batch = ys_training[batch * batch_size:]
-            xs_batch = torch.from_numpy(xs_batch[:batch_size]).float()
-            ys_batch = torch.from_numpy(ys_batch[:batch_size]).float()
+            xs_batch = torch.from_numpy(xs_batch[:batch_size]).float().to(device)
+            ys_batch = torch.from_numpy(ys_batch[:batch_size]).float().to(device)
 
             optimizer.zero_grad()
             outputs = model(xs_batch)
@@ -183,8 +181,10 @@ if __name__ == '__main__':
 
     # validate
     with torch.no_grad():
-        outputs = model(torch.from_numpy(xs_validation).float())
-        validation_loss = criterion(outputs, torch.from_numpy(ys_validation).float())
+        xs = torch.from_numpy(xs_validation).float().to(device)
+        ys = torch.from_numpy(ys_validation).float().to(device)
+        outputs = model(xs)
+        validation_loss = criterion(outputs, ys)
 
     print()
     print("Validation loss & accuracy: " + str(validation_loss))
@@ -196,7 +196,8 @@ if __name__ == '__main__':
     threshold_to_found_seeded_bugs = Counter()
     threshold_to_warnings_in_orig_code = Counter()
     with torch.no_grad():
-        ys_prediction = model(torch.from_numpy(xs_validation).float())
+        xs = torch.from_numpy(xs_validation).float().to(device)
+        ys_prediction = model(xs)
     poss_anomalies = []
     for idx in range(0, len(xs_validation), 2):
         y_prediction_orig = ys_prediction[idx][0]  # probab(original code should be changed), expect 0
