@@ -164,8 +164,9 @@ if __name__ == '__main__':
             loss.backward()
             optimizer.step()
 
-            print("Epoch %d/%d, Mini-batch %d/%d" % (epoch + 1, 10, batch + 1, count_batches))
-            if batch % 1000 == 0:
+            if batch % 2000 == 0:
+                print()
+                print("Epoch %d/%d, Mini-batch %d/%d" % (epoch + 1, 10, batch + 1, count_batches))
                 print("Current loss: %1.5f" % loss.item())
 
     optimizer.zero_grad()
