@@ -179,6 +179,8 @@ if __name__ == '__main__':
     print("Validation examples : " + str(len(xs_validation)))
     print(learning_data.stats)
 
+    model = model.eval()
+
     # validate
     with torch.no_grad():
         xs = torch.from_numpy(xs_validation).float().to(device)
