@@ -142,6 +142,12 @@ if __name__ == '__main__':
         nn.Sigmoid()
     )
 
+    if torch.cuda.is_available():
+        print("Using CUDA!")
+        model = model.cuda()
+    else:
+        print("Cannot use CUDA!")
+
     criterion = nn.BCELoss()
     optimizer = optim.RMSprop(model.parameters())
 
