@@ -4,6 +4,7 @@ from os.path import join
 from os import getcwd
 from collections import Counter, namedtuple
 import math
+import numpy
 import time
 import torch
 import torch.nn as nn
@@ -22,6 +23,13 @@ file_name_embedding_size = 50
 type_embedding_size = 5
 
 Anomaly = namedtuple("Anomaly", ["message", "score"])
+
+
+def shuffle_data(xs, ys):
+    assert len(xs) == len(ys)
+    p = numpy.random.permutation(len(xs))
+    return xs[p], ys[p]
+
 
 def parse_data_paths(args):
     training_data_paths = []
@@ -152,6 +160,7 @@ if __name__ == '__main__':
     batch_size = 100
     count_batches = math.ceil(len(xs_training) / 100)
     for epoch in range(10):
+        xs_training, ys_training = shuffle_data(xs_training, ys_training)
         for batch in range(count_batches):
             xs_batch = xs_training[batch * batch_size:]
             ys_batch = ys_training[batch * batch_size:]
