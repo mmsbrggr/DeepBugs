@@ -38,15 +38,14 @@ if __name__ == '__main__':
     model = load_model(model_file)
 
     # Load data to predict
-    learning_data = LearningDataSwappedArgs.LearningData()
-    learning_data.resetStats()
-    xs, ys, code_pieces = prepare_xy_pairs(["data/playground/calls_input.json"], learning_data)
+    # learning_data = LearningDataSwappedArgs.LearningData()
+    # learning_data.resetStats()
+    # xs, ys, code_pieces = prepare_xy_pairs(["data/playground/calls_input.json"], learning_data)
 
-    criterion = foolbox.criteria.OriginalClassProbability(0.5)
-    fmodel = foolbox.models.KerasModel(model, bounds=(-10, 10))
-    attack = foolbox.attacks.FGSM(fmodel, criterion)
-    adversarial = attack(xs[1], 0)
+    # Adversarial input
+    xs = np.loadtxt("adversarial_input.txt")
+    xs = np.expand_dims(xs, axis=0)
 
     # Predict and report to user
-    # result = model.predict(xs)
-    # print(result)
+    result = model.predict(xs)
+    print(result)

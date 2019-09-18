@@ -1,2 +1,2 @@
 
-p.done(error, result);
+element.addEventListener("click", handler);
